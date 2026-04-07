@@ -1,29 +1,74 @@
 <!DOCTYPE html>
-<html lang="fi">
+<html>
 <head>
-	<meta charset="utf-8">
-	<title>WWW harjoitus Mikael</title>
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-	<link type="text/css" rel="stylesheet" href="tyyli.css"  media="screen,projection"/>
+<title>Mikaelin verkkosivu</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    padding: 20px;
+  }
+
+  table {
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  th, td {
+    border: 1px solid black;
+    padding: 10px;
+  }
+
+  iframe {
+    display: block;
+    max-width: 600px;
+    margin: 20px auto;
+    width: 100%;
+    height: 300px;
+    border: 0;
+  }
+</style>
+
 </head>
 <body>
-	<div class="flex-container">
-	  <div class="flex-item yksi">Logo</div>
-	  <div class="flex-item kolme">
-		<a href="home.html">Home</a>
-		<a href="games.html">Games</a>
-		<a href="about.html">About</a>		
-	  </div>
-	  <div class="flex-item right yksi">
-		<a href="register.html">Register</a>
-		<a href="login.html">Login</a>
-	  </div>
-	</div>	
-	<div class="flex-container">
-		<div class="flex-item nelja">Home</div>
-		<div class="flex-item right yksi"><input type="text" id="haku"/></div>
-	</div>
+
+<h1>Verkkosivuni</h1>
+
+<h4>Harrastukseni</h4>
+<ul>
+  <li><i>Tykkään pelata tietokoneella</i></li>
+  <li>Tykkään <sup>uida</sup> kesäisin</li>
+  <li>Tykkään käydä <sub>salilla</sub></li>   
+</ul>
+
+<table>
+  <tr>
+    <th>Maanantai</th>
+    <th>Tiistai</th>
+    <th>Keskiviikko</th>
+    <th>Torstai</th>
+    <th>Perjantai</th>
+  </tr>
+  <tr>
+    <td>9:00 - 15:30</td>
+    <td>9:00 - 15:30</td>
+    <td>9:00 - 15:30</td>
+    <td>Vapaa</td>
+    <td>9:00 - 15:30</td>
+  </tr>
+</table>
+
+<h2>Minne muuttaisin</h2>
+
+<iframe
+  src="https://www.google.com/maps?q=Monte+Carlo,+Monaco&output=embed"
+  loading="lazy">
+</iframe>
+
+<img src="kissa.jpg" alt="Söpö kissa" width="300" height="200">
+
+<a href="https://github.com/Mikaeliiii/vvvtehtavat">Tekijänoikeus</a>
+
 </body>
 </html>
