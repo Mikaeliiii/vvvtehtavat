@@ -1,0 +1,110 @@
+
+html {
+	font-family: "Roboto", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
+	font-size: 14px;
+}
+a {
+	margin-right: 30px;
+}
+.flex-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center; /* vaakasuuntainen keskitys */
+	background-color: lightblue;
+	flex-wrap: wrap;
+	padding: 5px;	
+}
+.flex-item {
+	padding: 10px;
+	flex: 1;
+	background-color: lightgrey;
+	border: 1px solid #C0C0C0;	
+}
+.right {
+	text-align: right;
+}
+.yksi {
+	flex-grow: 1;		
+}
+.kaksi {
+	flex-grow: 2
+}
+.kolme {
+	flex-grow: 3
+}
+.nelja {
+	flex-grow: 4
+}
+#haku {
+	padding: 5px 2px 5px 2px;
+	width: 100%; /* pitää olla tai box-sizing ei toimi */
+	box-sizing: border-box;	/* laatikon padding ei vaikuta leveyteen */	
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  background-color: #f2f2f2;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid black;
+  padding: 15px;
+}
+
+.logo {
+  border: 2px solid black;
+  padding: 30px;
+}
+
+.nav a, .auth a {
+  margin: 0 10px;
+}
+
+
+.subheader {
+  display: flex;
+  justify-content: space-between;
+  border: 2px solid black;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+
+.article {
+  display: flex;
+  justify-content: space-between;
+  border: 2px solid black;
+  padding: 20px;
+  margin-top: 10px;
+}
+
+.text {
+  width: 60%;
+}
+
+.image {
+  width: 35%;
+  height: 150px;
+  border: 2px solid black;
+}
+
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  border: 2px solid black;
+  padding: 20px;
+  margin-top: 10px;
+}
+
+.footer div {
+  width: 30%;
+}
