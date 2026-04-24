@@ -1,0 +1,170 @@
+html {
+	font-family: "Roboto", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
+	font-size: 14px;
+}
+a {
+	margin-right: 75px;
+}
+
+
+#haku {
+	padding: 5px 2px 5px 2px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  background-color: #f2f2f2;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid black;
+  padding: 15px;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  padding: 15px;
+  width: 150px;
+  font-size: 25px;
+}
+
+.nav a, .auth a {
+  margin: 20 25px;
+}
+
+
+.subheader {
+  display: flex;
+  justify-content: space-between;
+  border: 2px solid black;
+  padding: 10px;
+  margin-top: 10px;
+  height: 60px;
+}
+
+ul.boom {
+  padding: 10px 16px;
+  list-style: none;
+  background-color: #eee;
+}
+
+ul.boom li {
+    display: inline;
+    font-size: 18px;
+}
+
+ul.boom li+li:before {
+    padding: 5px;
+    color: black;
+    content: ">\00a0";
+}
+
+ul.boom li a:hover {
+    color: 01447;
+    text-decoration: underline;
+}
+
+.text {
+  width: 60%;
+}
+
+.image {
+  width: 35%;
+  height: 150px;
+  border: 2px solid black;
+}
+
+
+
+/* --- PÄÄLAYOUT (sidebar + content) --- */
+
+.main {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+
+  flex: 1;
+}
+
+.keski {
+    display: block;
+    border: 2px solid black;
+    padding: 20px;
+    margin-top: 10px;
+
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.keski-text {
+    justify-content: middle;
+
+}
+
+.footer {
+  border: 2px solid black;
+  padding: 30px;
+  margin-top: 10px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.footer div {
+  width: 30%;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  background-color: #f2f2f2;
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* koko ruudun korkeus */
+}
+
+/* VASEN SIVUPALKKI */
+.sidebar {
+  width: 200px;
+  border: 2px solid black;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* LINKIT SIVUPALKISSA */
+.sidebar a {
+  display: block;
+  margin: 0;
+}
+
+/* OIKEA SISÄLTÖALUE */
+.content {
+  flex: 1;
+  border: 2px solid black;
+  padding: 20px;
+  margin-top: 0px;
+}
+
+.otsikko {
+  text-align: center;
+  margin: 30px 0;
+}
