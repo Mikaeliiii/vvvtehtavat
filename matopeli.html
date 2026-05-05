@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<title>Matopeli</title>
+<style>
+  body {
+    background: #080808;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  canvas {
+    background: rgb(0, 0, 0);
+  }
+</style>
+</head>
+<body>
+
+<canvas id="peli" width="600" height="400"></canvas>
+
+<script>
+const canvas = document.getElementById("peli");
+const ctx = canvas.getContext("2d");
+
+const ruutu = 20;
+
+let mato, suunta, ruoka, peliKaynnissa;
+
+// 🔁 Alustus / restart
+function alustaPeli() {
+  mato = [{x: 10 * ruutu, y: 10 * ruutu}];
+  suunta = {x: ruutu, y: 0};
+  ruoka = {
+    x: Math.floor(Math.random() * (canvas.width / ruutu)) * ruutu,
+    y: Math.floor(Math.random() * (canvas.height / ruutu)) * ruutu
+  };
+  peliKaynnissa = true;
+}
+
+alustaPeli();
+
+// 🎮 Ohjaus
+document.addEventListener("keydown", (e) => {
+  if (peliKaynnissa) {
+    if (e.key === "ArrowLeft" && suunta.x === 0) {
+      suunta = {x: -ruutu, y: 0};
+    }
+    if (e.key === "ArrowRight" && suunta.x === 0) {
+      suunta = {x: ruutu, y: 0};
+    }
+    if (e.key === "ArrowUp" && suunta.y === 0) {
+      suunta = {x: 0, y: -ruutu};
+    }
+    if (e.key === "ArrowDown" && suunta.y === 0) {
+      suunta = {x: 0, y: ruutu};
+    }
+  } else {
+    // 🔁 Restart Enterillä
+    if (e.key === "Enter") {
+      alustaPeli();
+    }
+  }
+});
+
+function piirra() {
+  ctx.fillStyle = "white";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  if (!peliKaynnissa) {
+    ctx.fillStyle = "black";
+    ctx.font = "30px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText("Hävisit!", canvas.width / 2, canvas.height / 2 - 20);
+    ctx.font = "20px Arial";
+    ctx.fillText("Paina Enter aloittaaksesi uudelleen", canvas.width / 2, canvas.height / 2 + 20);
+    return;
+  }
+
+  const paa = {
+    x: mato[0].x + suunta.x,
+    y: mato[0].y + suunta.y
+  };
+
+  // Törmäys seiniin
+  if (
+    paa.x < 0 || paa.y < 0 ||
+    paa.x >= canvas.width || paa.y >= canvas.height
+  ) {
+    peliKaynnissa = false;
+    return;
+  }
+
+  // Törmäys itseensä
+  for (let osa of mato) {
+    if (paa.x === osa.x && paa.y === osa.y) {
+      peliKaynnissa = false;
+      return;
+    }
+  }
+
+  mato.unshift(paa);
+
+  // Ruoka
+  if (paa.x === ruoka.x && paa.y === ruoka.y) {
+    ruoka = {
+      x: Math.floor(Math.random() * (canvas.width / ruutu)) * ruutu,
+      y: Math.floor(Math.random() * (canvas.height / ruutu)) * ruutu
+    };
+  } else {
+    mato.pop();
+  }
+
+  // Piirto
+  ctx.fillStyle = "red";
+  ctx.fillRect(ruoka.x, ruoka.y, ruutu, ruutu);
+
+  ctx.fillStyle = "lime";
+  for (let osa of mato) {
+    ctx.fillRect(osa.x, osa.y, ruutu, ruutu);
+  }
+}
+
+setInterval(piirra, 100);
+</script>
+
+</body>
+</html>

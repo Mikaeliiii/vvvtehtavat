@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<title>Pallojen keräys peli</title>
+<style>
+  body {
+    background: black;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  canvas {
+    background: #000;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="peli" width="420" height="420"></canvas>
+
+<script>
+const canvas = document.getElementById("peli");
+const ctx = canvas.getContext("2d");
+
+const ruutu = 20;
+
+// Kartta (1 = seinä, 0 = tyhjä, 2 = piste)
+let kartta = [
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,2,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,2,1],
+  [1,2,1,1,2,1,1,1,1,2,1,2,1,1,1,1,2,1,1,2,1],
+  [1,2,2,2,2,2,2,2,1,2,2,2,1,2,2,2,2,2,2,2,1],
+  [1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1],
+  [1,2,2,2,2,1,2,2,2,2,1,2,2,2,2,1,2,2,2,2,1],
+  [1,2,1,1,2,1,2,1,1,2,1,2,1,1,2,1,2,1,1,2,1],
+  [1,2,2,2,2,2,2,2,1,2,2,2,1,2,2,2,2,2,2,2,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+];
+
+let pacman = {x: 1, y: 1};
+let suunta = {x: 0, y: 0};
+
+let aloitusAika = Date.now();
+let kulunutAika = 0;
+let peliKaynnissa = true;
+let ajastinKaynnissa = false;
+
+// Ohjaus
+document.addEventListener("keydown", e => {
+
+  // 🟢 Käynnistä ajastin ensimmäisestä liikkeestä
+  if (!ajastinKaynnissa) {
+    aloitusAika = Date.now();
+    ajastinKaynnissa = true;
+  }
+
+  if (e.key === "ArrowUp") suunta = {x: 0, y: -1};
+  if (e.key === "ArrowDown") suunta = {x: 0, y: 1};
+  if (e.key === "ArrowLeft") suunta = {x: -1, y: 0};
+  if (e.key === "ArrowRight") suunta = {x: 1, y: 0};
+});
+
+function paivita() {
+  let uusiX = pacman.x + suunta.x;
+  let uusiY = pacman.y + suunta.y;
+
+  if (kartta[uusiY][uusiX] !== 1) {
+    pacman.x = uusiX;
+    pacman.y = uusiY;
+
+    // syö piste
+    if (kartta[uusiY][uusiX] === 2) {
+      kartta[uusiY][uusiX] = 0;
+    }
+  }
+}
+
+function piirra() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (let y = 0; y < kartta.length; y++) {
+    for (let x = 0; x < kartta[y].length; x++) {
+
+      if (kartta[y][x] === 1) {
+        ctx.fillStyle = "blue";
+        ctx.fillRect(x*ruutu, y*ruutu, ruutu, ruutu);
+      }
+
+      if (kartta[y][x] === 2) {
+        ctx.fillStyle = "white";
+        ctx.beginPath();
+        ctx.arc(x*ruutu+ruutu/2, y*ruutu+ruutu/2, 3, 0, Math.PI*2);
+        ctx.fill();
+      }
+
+      ctx.fillStyle = "white";
+        ctx.font = "16px Arial";
+        ctx.fillText("Aika: " + kulunutAika + " s", 10, 20);
+    }
+  }
+
+  // Pac-Man
+  ctx.fillStyle = "yellow";
+  ctx.beginPath();
+  ctx.arc(
+    pacman.x*ruutu + ruutu/2,
+    pacman.y*ruutu + ruutu/2,
+    ruutu/2,
+    0,
+    Math.PI * 2
+  );
+  ctx.fill();
+}
+
+function peliLoop() {
+    if (ajastinKaynnissa && peliKaynnissa) {
+  kulunutAika = Math.floor((Date.now() - aloitusAika) / 1000);
+}
+
+    if (!ajastinKaynnissa) {
+  ctx.fillText("Liiku aloittaaksesi", 150, 200);
+}
+  paivita();
+  piirra();
+
+  // tarkista voitto
+  let pisteita = kartta.flat().includes(2);
+  if (!pisteita) {
+  peliKaynnissa = false;
+  alert("Voitit! Aika: " + kulunutAika + " sekuntia");
+  location.reload();
+}
+
+  setTimeout(peliLoop, 120);
+}
+
+peliLoop();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<title>Väistelypeli</title>
+<style>
+  body {
+    margin: 0;
+    background: black;
+    display: flex;
+    justify-content: center;
+  }
+  canvas {
+    background: #111;
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="peli" width="400" height="500"></canvas>
+
+<script>
+const canvas = document.getElementById("peli");
+const ctx = canvas.getContext("2d");
+
+let pelaaja = { x: 180, y: 460, koko: 20 };
+let nopeus = 5;
+let vasen = false;
+let oikea = false;
+
+let esteet = [];
+let peliKaynnissa = true;
+let pisteet = 0;
+
+// Ohjaus
+document.addEventListener("keydown", e => {
+  if (e.key === "ArrowLeft") vasen = true;
+  if (e.key === "ArrowRight") oikea = true;
+
+  // restart
+  if (!peliKaynnissa && e.key === "Enter") {
+    reset();
+  }
+});
+
+document.addEventListener("keyup", e => {
+  if (e.key === "ArrowLeft") vasen = false;
+  if (e.key === "ArrowRight") oikea = false;
+});
+
+function reset() {
+  esteet = [];
+  pisteet = 0;
+  peliKaynnissa = true;
+  pelaaja.x = 180;
+}
+
+// Luo esteitä
+function luoEste() {
+  esteet.push({
+    x: Math.random() * (canvas.width - 20),
+    y: -20,
+    koko: 20,
+    nopeus: 3 + Math.random() * 2
+  });
+}
+
+// Päivitys
+function paivita() {
+  if (!peliKaynnissa) return;
+
+  if (vasen) pelaaja.x -= nopeus;
+  if (oikea) pelaaja.x += nopeus;
+
+  // rajat
+  if (pelaaja.x < 0) pelaaja.x = 0;
+  if (pelaaja.x > canvas.width - pelaaja.koko)
+    pelaaja.x = canvas.width - pelaaja.koko;
+
+  // esteet
+  for (let e of esteet) {
+    e.y += e.nopeus;
+
+    // törmäys
+    if (
+      pelaaja.x < e.x + e.koko &&
+      pelaaja.x + pelaaja.koko > e.x &&
+      pelaaja.y < e.y + e.koko &&
+      pelaaja.y + pelaaja.koko > e.y
+    ) {
+      peliKaynnissa = false;
+    }
+  }
+
+  // poista vanhat + pisteet
+  esteet = esteet.filter(e => {
+    if (e.y > canvas.height) {
+      pisteet++;
+      return false;
+    }
+    return true;
+  });
+
+  // spawn
+  if (Math.random() < 0.03) {
+    luoEste();
+  }
+}
+
+// Piirto
+function piirra() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // pelaaja
+  ctx.fillStyle = "lime";
+  ctx.fillRect(pelaaja.x, pelaaja.y, pelaaja.koko, pelaaja.koko);
+
+  // esteet
+  ctx.fillStyle = "red";
+  for (let e of esteet) {
+    ctx.fillRect(e.x, e.y, e.koko, e.koko);
+  }
+
+  // pisteet
+  ctx.fillStyle = "white";
+  ctx.font = "16px Arial";
+  ctx.fillText("Pisteet: " + pisteet, 10, 20);
+
+  // game over
+  if (!peliKaynnissa) {
+    ctx.font = "30px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText("Hävisit!", canvas.width/2, 220);
+    ctx.font = "18px Arial";
+    ctx.fillText("Paina Enter restart", canvas.width/2, 260);
+  }
+}
+
+// Loop
+function loop() {
+  paivita();
+  piirra();
+  requestAnimationFrame(loop);
+}
+
+loop();
+</script>
+
+</body>
+</html>
